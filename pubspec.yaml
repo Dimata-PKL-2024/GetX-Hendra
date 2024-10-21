@@ -25,11 +25,20 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   get: ^4.6.6
+  flutter_native_splash: ^2.4.1
  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_native_splash:
+  color: "#42a5f5"
+  image: assets/ff.png
+  android: true
+  ios: true
+  web: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -40,8 +49,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+  - assets/ff.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

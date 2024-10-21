@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/addC.dart';
-import '../controllers/usersC.dart';
+import '../controllers/add_controller.dart';
+import '../controllers/users_controller.dart';
 
 class AddPage extends StatelessWidget {
-  final addC = Get.find<AddC>();
-  final usersC = Get.find<UsersC>();
+  final addController = Get.find<AddController>();
+  final usersController = Get.find<UsersController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class AddPage extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal, 
       ),
       body: SafeArea(
         child: Padding(
@@ -35,90 +35,87 @@ class AddPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
-                controller: addC.nameC,
+              _buildTextField(
+                controller: addController.nameController,
+                labelText: "Full Name",
                 textInputAction: TextInputAction.next,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: "Full Name",
-                  labelStyle: TextStyle(color: Colors.teal),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
               ),
               SizedBox(height: 20),
-              TextField(
-                controller: addC.emailC,
+              _buildTextField(
+                controller: addController.emailController,
+                labelText: "Email Address",
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: "Email Address",
-                  labelStyle: TextStyle(color: Colors.teal),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
               ),
               SizedBox(height: 20),
-              TextField(
-                controller: addC.phoneC,
-                keyboardType: TextInputType.phone,
+              _buildTextField(
+                controller: addController.phoneController,
+                labelText: "Phone Number",
                 textInputAction: TextInputAction.done,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: "Phone Number",
-                  labelStyle: TextStyle(color: Colors.teal),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onEditingComplete: () => usersC.add(
-                  addC.nameC.text,
-                  addC.emailC.text,
-                  addC.phoneC.text,
-                ),
+                keyboardType: TextInputType.phone,
+                onEditingComplete: () => _submitUser(),
               ),
               SizedBox(height: 40),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.teal,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () => usersC.add(
-                  addC.nameC.text,
-                  addC.emailC.text,
-                  addC.phoneC.text,
-                ),
-                child: Text(
-                  "ADD USER",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              _buildSubmitButton(), 
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    TextInputAction textInputAction = TextInputAction.done,
+    TextInputType keyboardType = TextInputType.text,
+    void Function()? onEditingComplete,
+  }) {
+    return TextField(
+      controller: controller,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(color: Colors.teal), 
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal, width: 2.0), 
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      onEditingComplete: onEditingComplete,
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        backgroundColor: Colors.teal, 
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      onPressed: () => _submitUser(),
+      child: Text(
+        "ADD USER",
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  void _submitUser() {
+    usersController.add(
+      addController.nameController.text,
+      addController.emailController.text,
+      addController.phoneController.text,
     );
   }
 }
